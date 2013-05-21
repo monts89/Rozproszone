@@ -15,5 +15,6 @@ public class Rozproszone {
      */
     public static void main(String[] args) {
         // TODO wszystko - by luke
+        //Zmiana kamil
     }
 }
