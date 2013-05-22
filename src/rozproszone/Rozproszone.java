@@ -4,6 +4,9 @@
  */
 package rozproszone;
 
+import ca.CellSpace;
+import server.ServerMain;
+
 /**
  *
  * @author Lukasz
@@ -14,6 +17,9 @@ public class Rozproszone {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO wszystko - by luke
+        ServerMain main = new ServerMain(new CellSpace(10, 10, 1));
+
+        main.writeSpace();
+
     }
 }
