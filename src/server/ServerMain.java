@@ -15,7 +15,7 @@ import rozproszone.RMIDemo;
  */
 
 //Klasa odzwierciedla póki co serwer.
-public class ServerMain {
+public class ServerMain { 
 
     private CellSpace cellSpace;
 
