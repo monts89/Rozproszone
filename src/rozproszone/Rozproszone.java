@@ -5,6 +5,8 @@
 package rozproszone;
 
 import ca.CellSpace;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import server.ServerMain;
 
 /**
@@ -20,6 +22,11 @@ public class Rozproszone {
         ServerMain main = new ServerMain(new CellSpace(10, 10, 1));
 
         main.writeSpace();
+        try {
+            main.makeRemoteCall(args);
+        } catch (Exception ex) {
+          System.out.println("Prawdopodobnie jeden z serwerow jest wylaczony"+ex.getMessage());
+        }
 
     }
 }
