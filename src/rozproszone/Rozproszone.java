@@ -5,6 +5,7 @@
 package rozproszone;
 
 import ca.CellSpace;
+import java.rmi.registry.LocateRegistry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import server.ServerMain;
@@ -15,18 +16,16 @@ import server.ServerMain;
  */
 public class Rozproszone {
 
-    /**
-     * @param args the command line arguments
-     */
+    //TODO MS: Podział na program kliencki i serwerowy
     public static void main(String[] args) {
         ServerMain main = new ServerMain(new CellSpace(10, 10, 1));
-
-        main.writeSpace();
         try {
-            main.makeRemoteCall(args);
+            LocateRegistry.createRegistry(1099);
+            main.bindRemoteNodes();
+            main.makeRemoteCall();
+            main.writeSpace();
         } catch (Exception ex) {
-          System.out.println("Prawdopodobnie jeden z serwerow jest wylaczony"+ex.getMessage());
+            System.out.println("Prawdopodobnie jeden z wezlow jest wylaczony " + ex.getMessage());
         }
-
     }
 }
