@@ -12,7 +12,7 @@ import ca.Area;
  * @author Andrewman
  */
 //Klasa implementująca IterationMethodI będzie używana do obliczania kolejnego kroku iteracji
-//Będzie wykorzystywana przez węzły sieci (tak sądzę :D )
+//Będzie wykorzystywana przez węzły sieci
 public class FeForwardMethod3D implements IterationMethodI {
 
     public FeForwardMethod3D() {

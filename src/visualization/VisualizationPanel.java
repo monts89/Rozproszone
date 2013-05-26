@@ -15,6 +15,7 @@ import javax.swing.JSpinner;
  * @author Lukasz
  */
 public class VisualizationPanel extends JPanel {
+
     private CellSpace cellSpace;
     private JSpinner spinner;
 
@@ -24,7 +25,6 @@ public class VisualizationPanel extends JPanel {
     public VisualizationPanel() {
     }
 
-    
     public VisualizationPanel(CellSpace cellSpace, JSpinner spinner) {
         this.cellSpace = cellSpace;
         this.spinner = spinner;
@@ -36,12 +36,12 @@ public class VisualizationPanel extends JPanel {
         super.paintComponent(g);
         for (int i = 0; i < cellSpace.getHeight(); i++) {
             for (int j = 0; j < cellSpace.getWidth(); j++) {
-                int layer = (int)spinner.getValue() - 1;
-                Color c =  new Color(0, 0, 0, (int) cellSpace.getValue(i, j, layer));
+                int layer = (int) spinner.getValue() - 1;
+                Color c = new Color(0, 0, 0, (int) cellSpace.getValue(i, j, layer));
                 g.setColor(c);
-                g.fillRect(i*5, j*5, 5, 5);
+                g.fillRect(i * 5, j * 5, 5, 5);
                 g.setColor(Color.BLACK);
-                g.drawRect(i*5, j*5, 5, 5);
+                g.drawRect(i * 5, j * 5, 5, 5);
             }
         }
     }
@@ -50,7 +50,6 @@ public class VisualizationPanel extends JPanel {
         this.cellSpace = cellSpace;
         this.repaint();
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -74,6 +73,4 @@ public class VisualizationPanel extends JPanel {
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-
-    
 }

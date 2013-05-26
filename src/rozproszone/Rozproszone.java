@@ -29,17 +29,17 @@ public class Rozproszone {
             }
         });
         
-        //Tests/////////////////////////////////////////////////////
+//        //Tests/////////////////////////////////////////////////////
         CellSpace newSpace = new CellSpace(100, 100, 100);
-        newSpace.setValue(30, 30, 0, 100);
-        newSpace.setValue(50, 50, 0, 100);
-        newSpace.setValue(20, 40, 0, 100);
-        newSpace.setValue(90, 70, 0, 100);
-        
-        newSpace.setValue(90, 30, 1, 100);
-        newSpace.setValue(90, 50, 1, 100);
-        newSpace.setValue(90, 40, 1, 100);
-        newSpace.setValue(90, 70, 1, 100);
+//        newSpace.setValue(30, 30, 0, 100);
+//        newSpace.setValue(50, 50, 0, 100);
+//        newSpace.setValue(20, 40, 0, 100);
+//        newSpace.setValue(90, 70, 0, 100);
+//        
+//        newSpace.setValue(90, 30, 1, 100);
+//        newSpace.setValue(90, 50, 1, 100);
+//        newSpace.setValue(90, 40, 1, 100);
+//        newSpace.setValue(90, 70, 1, 100);
         
         window.setCellSpace(newSpace);
         /////////////////////////////////////

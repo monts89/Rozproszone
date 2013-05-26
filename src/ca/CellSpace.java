@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 //Klasa obsługująca operacje na przestrzeni automatów
 //boxTable3D - przestrzeń automatów
-public class CellSpace implements Serializable{
+public class CellSpace implements Serializable {
 
     private Cell[][][] boxTable3D;
     private int width, height, depth;

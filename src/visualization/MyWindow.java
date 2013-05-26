@@ -12,7 +12,9 @@ import javax.swing.SpinnerNumberModel;
  * @author Lukasz
  */
 public class MyWindow extends javax.swing.JFrame {
-    private CellSpace cellSpace; 
+
+    private CellSpace cellSpace;
+
     /**
      * Creates new form MyWindow
      */
@@ -21,11 +23,12 @@ public class MyWindow extends javax.swing.JFrame {
 
         initComponents();
     }
-    
-    public void setCellSpace(CellSpace cellSpace){
+
+    public void setCellSpace(CellSpace cellSpace) {
         this.cellSpace = cellSpace;
         visualizationPanel1.setCellSpace(cellSpace);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -99,8 +102,6 @@ public class MyWindow extends javax.swing.JFrame {
     private void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner1StateChanged
         visualizationPanel1.repaint();
     }//GEN-LAST:event_jSpinner1StateChanged
-
- 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JSpinner jSpinner1;

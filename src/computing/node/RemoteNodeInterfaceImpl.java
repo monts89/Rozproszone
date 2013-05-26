@@ -5,7 +5,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import ca.Area;
 import computing.methodsinterfaces.IterationMethodI;
-import java.util.Random;
 
 public class RemoteNodeInterfaceImpl extends UnicastRemoteObject implements RemoteNodeInterface {
 
