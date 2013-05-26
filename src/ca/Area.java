@@ -4,6 +4,8 @@
  */
 package ca;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Andrewman
@@ -11,7 +13,7 @@ package ca;
 //Obiekt przechowujący zadany wycinek przestrzeni
 //Przestrzeń jest dzielona tylko w jednym wymiarze
 //Czyli podajemy poczatkowa i koncową wysokość
-public class Area {
+public class Area implements Serializable{
 
     private int realHeight;
     private int realWidth;
@@ -23,6 +25,10 @@ public class Area {
         return area[x][y][z].getValue();
     }
 
+    public void setValue(int x, int y, int z, double value){
+        area[x][y][z].setValue(value);
+    }
+    
     public int getRealDepht() {
         return realDepht;
     }

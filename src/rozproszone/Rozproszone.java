@@ -5,6 +5,7 @@
 package rozproszone;
 
 import ca.CellSpace;
+import java.rmi.registry.LocateRegistry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import server.ServerMain;
@@ -45,10 +46,12 @@ public class Rozproszone {
         
         main.writeSpace();
         try {
-            main.makeRemoteCall(args);
+            LocateRegistry.createRegistry(1099);
+            main.bindRemoteNodes();
+            main.makeRemoteCall();
+            main.writeSpace();
         } catch (Exception ex) {
-          System.out.println("Prawdopodobnie jeden z serwerow jest wylaczony"+ex.getMessage());
+            System.out.println("Prawdopodobnie jeden z wezlow jest wylaczony " + ex.getMessage());
         }
-
     }
 }

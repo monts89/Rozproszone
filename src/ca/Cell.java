@@ -4,12 +4,14 @@
  */
 package ca;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Andrewman
  */
 //Pojedyncza komórka
-public class Cell {
+public class Cell implements Serializable{
     
     private double value;
     
