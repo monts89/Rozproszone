@@ -2,59 +2,52 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package rozproszone;
+package server;
 
 import ca.CellSpace;
 import java.rmi.registry.LocateRegistry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import server.ServerMain;
+import server.ServerController;
 import visualization.MyWindow;
 
 /**
  *
  * @author Lukasz
  */
-public class Rozproszone {
+public class ServerMain {
+
     private static MyWindow window = new MyWindow();
+    private static ServerController serverController;
+    private static SimulationController simulationController;
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ServerMain main = new ServerMain(new CellSpace(10, 10, 1));
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
                 window.setVisible(true);
             }
         });
-        
-//        //Tests/////////////////////////////////////////////////////
+
         CellSpace newSpace = new CellSpace(100, 100, 100);
-        
-        newSpace.setValue(30, 30, 0, 100);
-        newSpace.setValue(50, 50, 0, 100);
-        newSpace.setValue(20, 40, 0, 100);
-        newSpace.setValue(90, 70, 0, 100);
-        
-        newSpace.setValue(90, 30, 1, 1);
-        newSpace.setValue(90, 50, 1, 1);
-        newSpace.setValue(90, 40, 1, 1);
-        newSpace.setValue(90, 70, 1, 1);
-        
+
+        simulationController = new SimulationController(newSpace, 100, 0);
+        serverController = new ServerController(newSpace);
         window.setCellSpace(newSpace);
-        /////////////////////////////////////
-        
-        main.writeSpace();
+
         try {
             LocateRegistry.createRegistry(1099);
-            main.bindRemoteNodes("localhost");
-            
-            for(int i=0; i<5; i++){
-                main.makeRemoteCall();
+            serverController.bindRemoteNodes("localhost");
+
+            for (int i = 0; i < 5; i++) {
+                serverController.makeRemoteCall();
             }
-            
-            main.writeSpace();
+
+            serverController.writeSpace();
         } catch (Exception ex) {
             System.out.println("Prawdopodobnie jeden z wezlow jest wylaczony " + ex.getMessage());
         }

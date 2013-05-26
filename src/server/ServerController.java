@@ -11,7 +11,6 @@ import computing.node.interfaces.RemoteNodeInterface;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 
 /**
@@ -19,12 +18,12 @@ import java.util.ArrayList;
  * @author Andrewman
  */
 //Klasa odzwierciedla póki co serwer.
-public class ServerMain {
+public class ServerController {
 
     private CellSpace cellSpace;
     private ArrayList<RemoteNodeInterface> currentNodesList = new ArrayList<RemoteNodeInterface>();
 
-    public ServerMain(CellSpace space) {
+    public ServerController(CellSpace space) {
         this.cellSpace = space;
     }
 
@@ -54,9 +53,7 @@ public class ServerMain {
     }
 
     public boolean bindRemoteNodes(String host) throws NotBoundException, MalformedURLException, RemoteException {
-
         String[] names = Naming.list(String.format("rmi://%s:1099", host));
-
         for (String name : names) {
             currentNodesList.add((RemoteNodeInterface) Naming.lookup(name));
         }

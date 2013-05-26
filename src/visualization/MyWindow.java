@@ -129,7 +129,7 @@ public class MyWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jSlider1StateChanged
 
     private void startButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startButtonMouseClicked
-        // TODO add your handling code here
+        
     }//GEN-LAST:event_startButtonMouseClicked
 
     private void stopButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stopButtonMouseClicked
