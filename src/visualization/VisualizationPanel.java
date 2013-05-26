@@ -8,6 +8,7 @@ import ca.CellSpace;
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JSpinner;
 
 /**
@@ -17,7 +18,7 @@ import javax.swing.JSpinner;
 public class VisualizationPanel extends JPanel {
 
     private CellSpace cellSpace;
-    private JSpinner spinner;
+    private JSlider slider;
 
     /**
      * Creates new form VisualizationPanel
@@ -25,9 +26,10 @@ public class VisualizationPanel extends JPanel {
     public VisualizationPanel() {
     }
 
-    public VisualizationPanel(CellSpace cellSpace, JSpinner spinner) {
+    
+    public VisualizationPanel(CellSpace cellSpace, JSlider slider) {
         this.cellSpace = cellSpace;
-        this.spinner = spinner;
+        this.slider = slider;
         initComponents();
     }
 
@@ -36,8 +38,13 @@ public class VisualizationPanel extends JPanel {
         super.paintComponent(g);
         for (int i = 0; i < cellSpace.getHeight(); i++) {
             for (int j = 0; j < cellSpace.getWidth(); j++) {
-                int layer = (int) spinner.getValue() - 1;
-                Color c = new Color(0, 0, 0, (int) cellSpace.getValue(i, j, layer));
+                int layer = (int)slider.getValue() - 1;
+                Color c = null;
+                if (cellSpace.getValue(i, j, layer) != 0) {
+                    c = new Color(255, 0, 0, (int)cellSpace.getValue(i, j, layer) + 150);
+                } else {
+                    c = new Color(0, 0, 255, 80);
+                }
                 g.setColor(c);
                 g.fillRect(i * 5, j * 5, 5, 5);
                 g.setColor(Color.BLACK);

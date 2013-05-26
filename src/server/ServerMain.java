@@ -2,85 +2,61 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package server;
+package rozproszone;
 
-import ca.Area;
 import ca.CellSpace;
-import java.rmi.Naming;
-import computing.node.interfaces.RemoteNodeInterface;
-import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import server.ServerMain;
+import visualization.MyWindow;
 
 /**
  *
- * @author Andrewman
+ * @author Lukasz
  */
-//Klasa odzwierciedla póki co serwer.
-public class ServerMain {
-
-    private CellSpace cellSpace;
-    private ArrayList<RemoteNodeInterface> currentNodesList = new ArrayList<RemoteNodeInterface>();
-
-    public ServerMain(CellSpace space) {
-        this.cellSpace = space;
-    }
-
-    //Wypisanie
-    public void writeSpace() {
-        for (int i = 0; i < cellSpace.getWidth(); i++) {
-            for (int j = 0; j < cellSpace.getHeight(); j++) {
-                for (int k = 0; k < 1; k++) {
-                    System.out.print(cellSpace.getValue(i, j, k) + " ");
-                }
+public class Rozproszone {
+    private static MyWindow window = new MyWindow();
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        ServerMain main = new ServerMain(new CellSpace(10, 10, 1));
+        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                window.setVisible(true);
             }
-            System.out.println();
-        }
-    }
-
-    // Zapis obszaru do głównej przestrzeni automatów
-    public void writeAreaToCellSpace(Area area) {
-        for (int i = 0; i < this.cellSpace.getWidth(); i++) {
-            int ai = 1;
-            for (int j = area.getStartHeight(); j < area.getEndHeight(); j++) {
-                for (int k = 0; k < this.cellSpace.getDepth(); k++) {
-                    this.cellSpace.setValue(i, j, k, area.getValue(i, ai, k));
-                }
-                ai++;
+        });
+        
+//        //Tests/////////////////////////////////////////////////////
+        CellSpace newSpace = new CellSpace(100, 100, 100);
+        
+        newSpace.setValue(30, 30, 0, 100);
+        newSpace.setValue(50, 50, 0, 100);
+        newSpace.setValue(20, 40, 0, 100);
+        newSpace.setValue(90, 70, 0, 100);
+        
+        newSpace.setValue(90, 30, 1, 1);
+        newSpace.setValue(90, 50, 1, 1);
+        newSpace.setValue(90, 40, 1, 1);
+        newSpace.setValue(90, 70, 1, 1);
+        
+        window.setCellSpace(newSpace);
+        /////////////////////////////////////
+        
+        main.writeSpace();
+        try {
+            LocateRegistry.createRegistry(1099);
+            main.bindRemoteNodes("localhost");
+            
+            for(int i=0; i<5; i++){
+                main.makeRemoteCall();
             }
-        }
-    }
-
-    public boolean bindRemoteNodes(String host) throws NotBoundException, MalformedURLException, RemoteException {
-
-        String[] names = Naming.list(String.format("rmi://%s:1099", host));
-
-        for (String name : names) {
-            currentNodesList.add((RemoteNodeInterface) Naming.lookup(name));
-        }
-        return true;
-    }
-
-    public void makeRemoteCall() throws RemoteException, NotBoundException, MalformedURLException {
-        ArrayList<Area> areas = new ArrayList<Area>();
-        int i = 0;
-        int nodesCount = currentNodesList.size();
-        int spaceHeight = this.cellSpace.getHeight();
-        int part = spaceHeight / nodesCount;
-
-        for (RemoteNodeInterface node : currentNodesList) {
-            if (i != nodesCount - 1) {
-                areas.add((Area) node.computeIteration(new Area(this.cellSpace, part * i, (part * (i + 1)))));
-            } else {
-                areas.add((Area) node.computeIteration(new Area(this.cellSpace, part * i, spaceHeight)));
-            }
-            i++;
-        }
-
-        for (Area area : areas) {
-            writeAreaToCellSpace(area);
+            
+            main.writeSpace();
+        } catch (Exception ex) {
+            System.out.println("Prawdopodobnie jeden z wezlow jest wylaczony " + ex.getMessage());
         }
     }
 }

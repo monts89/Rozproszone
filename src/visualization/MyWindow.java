@@ -5,6 +5,7 @@
 package visualization;
 
 import ca.CellSpace;
+import javax.swing.JSlider;
 import javax.swing.SpinnerNumberModel;
 
 /**
@@ -26,7 +27,7 @@ public class MyWindow extends javax.swing.JFrame {
 
     public void setCellSpace(CellSpace cellSpace) {
         this.cellSpace = cellSpace;
-        visualizationPanel1.setCellSpace(cellSpace);
+        visualizationPanel2.setCellSpace(cellSpace);
     }
 
     /**
@@ -38,35 +39,54 @@ public class MyWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jSpinner1 = new javax.swing.JSpinner(new SpinnerNumberModel(1, 1, cellSpace.getDepth(), 1));
-        visualizationPanel1 = new visualization.VisualizationPanel(cellSpace, jSpinner1);
+        jSlider1 = new javax.swing.JSlider(JSlider.HORIZONTAL,
+            1, cellSpace.getDepth(), 1);
+        visualizationPanel2 = new visualization.VisualizationPanel(cellSpace, jSlider1);
+        startButton = new javax.swing.JButton();
+        stopButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(700, 700));
 
-        jButton1.setText("Show");
-
-        jSpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
+        jSlider1.setMajorTickSpacing(9);
+        jSlider1.setMinorTickSpacing(1);
+        jSlider1.setPaintLabels(true);
+        jSlider1.setPaintTicks(true);
+        jSlider1.setPaintTrack(false);
+        jSlider1.setSnapToTicks(true);
+        jSlider1.setToolTipText("");
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSpinner1StateChanged(evt);
+                jSlider1StateChanged(evt);
             }
         });
 
-        visualizationPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        visualizationPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        visualizationPanel1.setPreferredSize(new java.awt.Dimension(500, 500));
+        visualizationPanel2.setPreferredSize(new java.awt.Dimension(500, 500));
 
-        javax.swing.GroupLayout visualizationPanel1Layout = new javax.swing.GroupLayout(visualizationPanel1);
-        visualizationPanel1.setLayout(visualizationPanel1Layout);
-        visualizationPanel1Layout.setHorizontalGroup(
-            visualizationPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 498, Short.MAX_VALUE)
+        javax.swing.GroupLayout visualizationPanel2Layout = new javax.swing.GroupLayout(visualizationPanel2);
+        visualizationPanel2.setLayout(visualizationPanel2Layout);
+        visualizationPanel2Layout.setHorizontalGroup(
+            visualizationPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 508, Short.MAX_VALUE)
         );
-        visualizationPanel1Layout.setVerticalGroup(
-            visualizationPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 498, Short.MAX_VALUE)
+        visualizationPanel2Layout.setVerticalGroup(
+            visualizationPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 500, Short.MAX_VALUE)
         );
+
+        startButton.setText("Start");
+        startButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                startButtonMouseClicked(evt);
+            }
+        });
+
+        stopButton.setLabel("Stop");
+        stopButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                stopButtonMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -74,11 +94,14 @@ public class MyWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(visualizationPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
-                    .addComponent(jSpinner1))
+                .addComponent(visualizationPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(stopButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(startButton, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE))
+                .addContainerGap(257, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -86,25 +109,38 @@ public class MyWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(visualizationPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(visualizationPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(129, 129, 129)
+                        .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(stopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner1StateChanged
-        visualizationPanel1.repaint();
-    }//GEN-LAST:event_jSpinner1StateChanged
+    private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
+        visualizationPanel2.repaint();
+    }//GEN-LAST:event_jSlider1StateChanged
+
+    private void startButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startButtonMouseClicked
+        // TODO add your handling code here
+    }//GEN-LAST:event_startButtonMouseClicked
+
+    private void stopButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stopButtonMouseClicked
+        // TODO add your handling code here
+    }//GEN-LAST:event_stopButtonMouseClicked
+
+ 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JSpinner jSpinner1;
-    private visualization.VisualizationPanel visualizationPanel1;
+    private javax.swing.JSlider jSlider1;
+    private javax.swing.JButton startButton;
+    private javax.swing.JButton stopButton;
+    private visualization.VisualizationPanel visualizationPanel2;
     // End of variables declaration//GEN-END:variables
 }
