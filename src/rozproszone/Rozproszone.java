@@ -15,18 +15,14 @@ import server.ServerMain;
  */
 public class Rozproszone {
 
-    /**
-     * @param args the command line arguments
-     */
+    //TODO MS: Podział na program kliencki i serwerowy
     public static void main(String[] args) {
         ServerMain main = new ServerMain(new CellSpace(10, 10, 1));
-
-        main.writeSpace();
         try {
-            main.makeRemoteCall(args);
+            main.bindRemoteNodes();
+            main.makeRemoteCall();
         } catch (Exception ex) {
-          System.out.println("Prawdopodobnie jeden z serwerow jest wylaczony"+ex.getMessage());
+            System.out.println("Prawdopodobnie jeden z serwerow jest wylaczony" + ex.getMessage());
         }
-
     }
 }

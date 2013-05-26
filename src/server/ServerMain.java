@@ -7,17 +7,21 @@ package server;
 import ca.Area;
 import ca.CellSpace;
 import java.rmi.Naming;
-import rozproszone.RMIDemo;
+import computing.node.interfaces.RemoteNodeInterface;
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 /**
  *
  * @author Andrewman
  */
-
 //Klasa odzwierciedla póki co serwer.
-public class ServerMain { 
+public class ServerMain {
 
     private CellSpace cellSpace;
+    private ArrayList<RemoteNodeInterface> currentNodesList = new ArrayList<RemoteNodeInterface>();
 
     public ServerMain(CellSpace space) {
         this.cellSpace = space;
@@ -51,28 +55,19 @@ public class ServerMain {
             }
         }
     }
-    
-    public void makeRemoteCall(String args[]) throws Exception
-    {
-        if(args.length==3){
-             String url = new String("rmi://"+args[0]+"/RMIDemo");
-             String url2 = new String("rmi://"+args[0]+"/RMIDemo2");
-             
-             RMIDemo rMIDemo = (RMIDemo)Naming.lookup(url);
-             RMIDemo rMIDemo2 = (RMIDemo)Naming.lookup(url2);
-                        
-             String serverReply = rMIDemo.doCommunicate(args[1]);
-             String serverReply2 = rMIDemo2.doCommunicate(args[2]);
-             
-                      
-             System.out.println("Server reply to the ServerMain: "+serverReply);
-             System.out.println("Server2 reply to the ServerMain: "+serverReply2);
-        }else{
-	
-            System.err.println("Usage: RMIDemoClient <server> <name>");
-			
-	}
-    
+
+    public boolean bindRemoteNodes() throws NotBoundException, MalformedURLException, RemoteException {
+
+        currentNodesList.add((RemoteNodeInterface) Naming.lookup("rmi://localhost/ComputingNode"));
+        currentNodesList.add((RemoteNodeInterface) Naming.lookup("rmi://localhost/ComputingNode2"));
+
+        return true;
     }
-    
+
+    public void makeRemoteCall() throws RemoteException, NotBoundException, MalformedURLException {
+        int i = 0;
+        for (RemoteNodeInterface node : currentNodesList) {
+            System.out.println(node.doCommunicate(String.format("Przeslany argument nr %d", i++)));
+        }
+    }
 }

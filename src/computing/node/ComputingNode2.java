@@ -1,11 +1,11 @@
-package rozproszone;
+package computing.node;
 
 import java.rmi.Naming;
 
-public class RMIDemoServer2 {
+public class ComputingNode2 {
 
 	public static void main(String[] args) throws Exception{
-		RMIDemoImpl rMIDemoImpl2 = new RMIDemoImpl();
+		RemoteNodeInterfaceImpl rMIDemoImpl2 = new RemoteNodeInterfaceImpl();
 		Naming.rebind("RMIDemo2", rMIDemoImpl2);
 		System.out.println("Serwer 2 wystartowal ");
 

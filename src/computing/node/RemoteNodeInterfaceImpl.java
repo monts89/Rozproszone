@@ -1,13 +1,14 @@
-package rozproszone;
+package computing.node;
 
+import computing.node.interfaces.RemoteNodeInterface;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class RMIDemoImpl extends UnicastRemoteObject implements RMIDemo {
+public class RemoteNodeInterfaceImpl extends UnicastRemoteObject implements RemoteNodeInterface {
 
 	private static final long serialVersionUID = 1L;
 
-	protected RMIDemoImpl() throws RemoteException {
+	protected RemoteNodeInterfaceImpl() throws RemoteException {
 		super();
 		
 	}
