@@ -11,6 +11,7 @@ import computing.node.interfaces.RemoteNodeInterface;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 
 /**
@@ -39,10 +40,6 @@ public class ServerMain {
         }
     }
 
-    public void test() {
-        this.writeAreaToCellSpace(new Area(this.cellSpace, 3, 10));
-    }
-
     // Zapis obszaru do głównej przestrzeni automatów
     public void writeAreaToCellSpace(Area area) {
         for (int i = 0; i < this.cellSpace.getWidth(); i++) {
@@ -58,16 +55,23 @@ public class ServerMain {
 
     public boolean bindRemoteNodes() throws NotBoundException, MalformedURLException, RemoteException {
 
-        currentNodesList.add((RemoteNodeInterface) Naming.lookup("rmi://localhost/ComputingNode"));
-        currentNodesList.add((RemoteNodeInterface) Naming.lookup("rmi://localhost/ComputingNode2"));
+        String[] names = Naming.list("rmi://localhost:1099");
 
+        for (String name : names) {
+            currentNodesList.add((RemoteNodeInterface) Naming.lookup(name));
+        }
         return true;
     }
 
     public void makeRemoteCall() throws RemoteException, NotBoundException, MalformedURLException {
+
+        ArrayList<Area> areas = new ArrayList<Area>();
         int i = 0;
         for (RemoteNodeInterface node : currentNodesList) {
-            System.out.println(node.doCommunicate(String.format("Przeslany argument nr %d", i++)));
+            areas.add((Area) node.doCommunicate(new Area(this.cellSpace, 0, 10)));
+        }
+        for (Area area : areas) {
+            writeAreaToCellSpace(area);
         }
     }
 }

@@ -4,13 +4,15 @@
  */
 package ca;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Andrewman
  */
 //Klasa obsługująca operacje na przestrzeni automatów
 //boxTable3D - przestrzeń automatów
-public class CellSpace {
+public class CellSpace implements Serializable{
 
     private Cell[][][] boxTable3D;
     private int width, height, depth;

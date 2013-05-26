@@ -3,6 +3,8 @@ package computing.node;
 import computing.node.interfaces.RemoteNodeInterface;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import ca.Area;
+import java.util.Random;
 
 public class RemoteNodeInterfaceImpl extends UnicastRemoteObject implements RemoteNodeInterface {
 
@@ -14,9 +16,17 @@ public class RemoteNodeInterfaceImpl extends UnicastRemoteObject implements Remo
 	}
 
 	@Override
-	public String doCommunicate(String name) throws RemoteException {
-		
-		return "\nServer says: Hi "+name+"\n";
+	public Area doCommunicate(Area area) throws RemoteException {
+		double d = new Random().nextDouble();
+		for(int i=0; i<area.getRealWidth(); i++){
+                    for(int j=0; j<area.getRealHeight(); j++){
+                        for(int k=0; k<area.getRealDepht(); k++){
+                            area.setValue(i, j, k, d);
+                        }
+                    }
+                }
+                
+            return area;
 	}
 
 }
