@@ -40,6 +40,8 @@ public class VisualizationPanel extends JPanel {
                 Color c =  new Color(0, 0, 0, (int) cellSpace.getValue(i, j, layer));
                 g.setColor(c);
                 g.fillRect(i*5, j*5, 5, 5);
+                g.setColor(Color.BLACK);
+                g.drawRect(i*5, j*5, 5, 5);
             }
         }
     }
