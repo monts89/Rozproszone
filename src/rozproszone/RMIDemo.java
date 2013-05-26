@@ -1,5 +1,5 @@
 package rozproszone;
-
+// komentarz 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
