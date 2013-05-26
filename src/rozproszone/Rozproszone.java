@@ -21,8 +21,12 @@ public class Rozproszone {
         ServerMain main = new ServerMain(new CellSpace(10, 10, 1));
         try {
             LocateRegistry.createRegistry(1099);
-            main.bindRemoteNodes();
-            main.makeRemoteCall();
+            main.bindRemoteNodes("localhost");
+            
+            for(int i=0; i<5; i++){
+                main.makeRemoteCall();
+            }
+            
             main.writeSpace();
         } catch (Exception ex) {
             System.out.println("Prawdopodobnie jeden z wezlow jest wylaczony " + ex.getMessage());

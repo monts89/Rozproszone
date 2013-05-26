@@ -27,8 +27,8 @@ public class ServerMain {
     public ServerMain(CellSpace space) {
         this.cellSpace = space;
     }
-    //Wypisanie
 
+    //Wypisanie
     public void writeSpace() {
         for (int i = 0; i < cellSpace.getWidth(); i++) {
             for (int j = 0; j < cellSpace.getHeight(); j++) {
@@ -53,9 +53,9 @@ public class ServerMain {
         }
     }
 
-    public boolean bindRemoteNodes() throws NotBoundException, MalformedURLException, RemoteException {
+    public boolean bindRemoteNodes(String host) throws NotBoundException, MalformedURLException, RemoteException {
 
-        String[] names = Naming.list("rmi://localhost:1099");
+        String[] names = Naming.list(String.format("rmi://%s:1099", host));
 
         for (String name : names) {
             currentNodesList.add((RemoteNodeInterface) Naming.lookup(name));
@@ -64,12 +64,21 @@ public class ServerMain {
     }
 
     public void makeRemoteCall() throws RemoteException, NotBoundException, MalformedURLException {
-
         ArrayList<Area> areas = new ArrayList<Area>();
         int i = 0;
+        int nodesCount = currentNodesList.size();
+        int spaceHeight = this.cellSpace.getHeight();
+        int part = spaceHeight / nodesCount;
+
         for (RemoteNodeInterface node : currentNodesList) {
-            areas.add((Area) node.doCommunicate(new Area(this.cellSpace, 0, 10)));
+            if (i != nodesCount - 1) {
+                areas.add((Area) node.computeIteration(new Area(this.cellSpace, part * i, (part * (i + 1)))));
+            } else {
+                areas.add((Area) node.computeIteration(new Area(this.cellSpace, part * i, spaceHeight)));
+            }
+            i++;
         }
+
         for (Area area : areas) {
             writeAreaToCellSpace(area);
         }

@@ -5,6 +5,7 @@
 package computing.methods;
 
 import computing.methodsinterfaces.*;
+import ca.Area;
 
 /**
  *
@@ -14,10 +15,10 @@ import computing.methodsinterfaces.*;
 //Będzie wykorzystywana przez węzły sieci (tak sądzę :D )
 public class FeForwardMethod3D implements IterationMethodI {
 
-    public FeForwardMethod3D() { }
+    public FeForwardMethod3D() {
+    }
 
     @Override
-    public void nextIteration() {
-       
+    public void nextIteration(Area area) {
     }
 }

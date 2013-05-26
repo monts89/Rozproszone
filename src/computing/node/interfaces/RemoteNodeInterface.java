@@ -5,6 +5,6 @@ import java.rmi.RemoteException;
 import ca.Area;
 
 public interface RemoteNodeInterface extends Remote {
-
-    public Area doCommunicate(Area area) throws RemoteException;
+    public Area computeIteration(Area area) throws RemoteException;
+    public String getHost();
 }
