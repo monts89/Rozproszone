@@ -313,6 +313,7 @@ public class MyWindow extends javax.swing.JFrame {
     private void refreshButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshButtonMouseClicked
         serverController.clearCurrentNodes();
         serverController.addHost("localhost");
+        nodesListTextArea.setText("");
         serverController.bindRemoteNodes();
         for (String hostName : serverController.getHostsNames()) {
             nodesListTextArea.append(String.format("%s \n", hostName));

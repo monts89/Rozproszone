@@ -23,7 +23,12 @@ public class FeForwardMethod3D implements IterationMethodI {
         for (int i = 1; i < area.getRealWidth() - 2; i++) {
             for (int j = 1; j < area.getRealHeight() - 2; j++) {
                 for (int k = 1; k < area.getRealDepht() - 2; k++) {
-                    area.setValue(i, j, k, area.getValue(i, j, k) + 1.0);
+
+                    double newValue = (area.getValue(i, j - 1, k)
+                            + area.getValue(i - 1, j, k) + area.getValue(i, j, k) + area.getValue(i + 1, j, k)
+                            + area.getValue(i, j + 1, k) + area.getValue(i, j, k + 1) + area.getValue(i, j, k - 1)) / 7;
+
+                    area.setValue(i, j, k, newValue);
                 }
             }
         }
