@@ -16,6 +16,7 @@ import javax.swing.JSpinner;
  * @author Lukasz
  */
 public class VisualizationPanel extends JPanel {
+
     private CellSpace cellSpace;
     private JSlider slider;
 
@@ -45,9 +46,9 @@ public class VisualizationPanel extends JPanel {
                     c = new Color(0, 0, 255, 80);
                 }
                 g.setColor(c);
-                g.fillRect(i*5, j*5, 5, 5);
+                g.fillRect(i * 5, j * 5, 5, 5);
                 g.setColor(Color.BLACK);
-                g.drawRect(i*5, j*5, 5, 5);
+                g.drawRect(i * 5, j * 5, 5, 5);
             }
         }
     }
@@ -56,7 +57,6 @@ public class VisualizationPanel extends JPanel {
         this.cellSpace = cellSpace;
         this.repaint();
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -80,6 +80,4 @@ public class VisualizationPanel extends JPanel {
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-
-    
 }

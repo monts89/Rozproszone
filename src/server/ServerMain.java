@@ -4,74 +4,52 @@
  */
 package server;
 
-import ca.Area;
 import ca.CellSpace;
-import java.rmi.Naming;
-import computing.node.interfaces.RemoteNodeInterface;
-import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import server.ServerController;
+import visualization.MyWindow;
 
 /**
  *
- * @author Andrewman
+ * @author Lukasz
  */
-//Klasa odzwierciedla póki co serwer.
 public class ServerMain {
 
-    private CellSpace cellSpace;
-    private ArrayList<RemoteNodeInterface> currentNodesList = new ArrayList<RemoteNodeInterface>();
+    private static MyWindow window = new MyWindow();
+    private static ServerController serverController;
+    private static SimulationController simulationController;
 
-    public ServerMain(CellSpace space) {
-        this.cellSpace = space;
-    }
-    //Wypisanie
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
 
-    public void writeSpace() {
-        for (int i = 0; i < cellSpace.getWidth(); i++) {
-            for (int j = 0; j < cellSpace.getHeight(); j++) {
-                for (int k = 0; k < 1; k++) {
-                    System.out.print(cellSpace.getValue(i, j, k) + " ");
-                }
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            public void run() {
+                window.setVisible(true);
             }
-            System.out.println();
-        }
-    }
+        });
 
-    // Zapis obszaru do głównej przestrzeni automatów
-    public void writeAreaToCellSpace(Area area) {
-        for (int i = 0; i < this.cellSpace.getWidth(); i++) {
-            int ai = 1;
-            for (int j = area.getStartHeight(); j < area.getEndHeight(); j++) {
-                for (int k = 0; k < this.cellSpace.getDepth(); k++) {
-                    this.cellSpace.setValue(i, j, k, area.getValue(i, ai, k));
-                }
-                ai++;
+        CellSpace newSpace = new CellSpace(100, 100, 100);
+
+        simulationController = new SimulationController(newSpace, 100, 0);
+        serverController = new ServerController(newSpace);
+        window.setCellSpace(newSpace);
+
+        try {
+            LocateRegistry.createRegistry(1099);
+            serverController.bindRemoteNodes("localhost");
+
+            for (int i = 0; i < 5; i++) {
+                serverController.makeRemoteCall();
             }
-        }
-    }
 
-    public boolean bindRemoteNodes() throws NotBoundException, MalformedURLException, RemoteException {
-
-        String[] names = Naming.list("rmi://localhost:1099");
-
-        for (String name : names) {
-            currentNodesList.add((RemoteNodeInterface) Naming.lookup(name));
-        }
-        return true;
-    }
-
-    public void makeRemoteCall() throws RemoteException, NotBoundException, MalformedURLException {
-
-        ArrayList<Area> areas = new ArrayList<Area>();
-        int i = 0;
-        for (RemoteNodeInterface node : currentNodesList) {
-            areas.add((Area) node.doCommunicate(new Area(this.cellSpace, 0, 10)));
-        }
-        for (Area area : areas) {
-            writeAreaToCellSpace(area);
+            serverController.writeSpace();
+        } catch (Exception ex) {
+            System.out.println("Prawdopodobnie jeden z wezlow jest wylaczony " + ex.getMessage());
         }
     }
 }

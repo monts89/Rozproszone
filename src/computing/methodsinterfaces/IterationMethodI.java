@@ -4,10 +4,13 @@
  */
 package computing.methodsinterfaces;
 
+import ca.Area;
+
 /**
  *
  * @author Andrewman
  */
 public interface IterationMethodI {
-    public void nextIteration();
+
+    public void nextIteration(Area area);
 }
