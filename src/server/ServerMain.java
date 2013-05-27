@@ -36,6 +36,7 @@ public class ServerMain {
         CellSpace newSpace = new CellSpace(100, 100, 100);
 
         simulationController = new SimulationController(newSpace, 100, 0);
+        simulationController.init(SimulationController.PREDEFINED_CONDITIONS.Ball);
         serverController = new ServerController(newSpace);
         window.setCellSpace(newSpace);
 
