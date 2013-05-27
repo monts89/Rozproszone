@@ -71,24 +71,29 @@ public class ServerController {
         return true;
     }
 
-    public void makeRemoteCall() throws RemoteException, NotBoundException, MalformedURLException {
+    public boolean makeRemoteCall() {
         ArrayList<Area> areas = new ArrayList<Area>();
         int i = 0;
         int nodesCount = currentNodesList.size();
         int spaceHeight = this.cellSpace.getHeight();
         int part = spaceHeight / nodesCount;
-
-        for (RemoteNodeInterface node : currentNodesList) {
-            if (i != nodesCount - 1) {
-                areas.add((Area) node.computeIteration(new Area(this.cellSpace, part * i, (part * (i + 1)))));
-            } else {
-                areas.add((Area) node.computeIteration(new Area(this.cellSpace, part * i, spaceHeight)));
+        try {
+            for (RemoteNodeInterface node : currentNodesList) {
+                if (i != nodesCount - 1) {
+                    areas.add((Area) node.computeIteration(new Area(this.cellSpace, part * i, (part * (i + 1)))));
+                } else {
+                    areas.add((Area) node.computeIteration(new Area(this.cellSpace, part * i, spaceHeight)));
+                }
+                i++;
             }
-            i++;
+        } catch (RemoteException remoteException) {
+            remoteException.printStackTrace();
+            return false;
         }
 
         for (Area area : areas) {
             writeAreaToCellSpace(area);
         }
+        return true;
     }
 }
