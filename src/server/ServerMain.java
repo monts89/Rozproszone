@@ -5,6 +5,7 @@
 package server;
 
 import ca.CellSpace;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,19 +39,11 @@ public class ServerMain {
         simulationController = new SimulationController(newSpace, 100, 0);
         simulationController.init(SimulationController.PREDEFINED_CONDITIONS.Ball);
         serverController = new ServerController(newSpace);
-        window.setCellSpace(newSpace);
-
         try {
             serverController.createRmiRegistry();
-            serverController.bindRemoteNodes("localhost");
-
-            for (int i = 0; i < 5; i++) {
-                serverController.makeRemoteCall();
-            }
-
-            serverController.writeSpace();
-        } catch (Exception ex) {
-            System.out.println("Prawdopodobnie jeden z wezlow jest wylaczony " + ex.getMessage());
+        } catch (RemoteException ex) {
+            Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
         }
+        window.setCellSpace(newSpace);
     }
 }
