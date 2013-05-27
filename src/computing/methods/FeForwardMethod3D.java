@@ -20,9 +20,9 @@ public class FeForwardMethod3D implements IterationMethodI {
 
     @Override
     public void nextIteration(Area area) {
-        for(int i=0; i<area.getRealWidth(); i++){
-            for(int j=0; j<area.getRealHeight(); j++){
-                for(int k=0; k<area.getRealDepht(); k++){
+        for(int i=1; i<area.getRealWidth()-2; i++){
+            for(int j=1; j<area.getRealHeight()-2; j++){
+                for(int k=1; k<area.getRealDepht()-2; k++){
                     area.setValue(i, j, k, 2.0);
                 }
             }
