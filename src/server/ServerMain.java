@@ -41,7 +41,7 @@ public class ServerMain {
         window.setCellSpace(newSpace);
 
         try {
-            LocateRegistry.createRegistry(1099);
+            serverController.createRmiRegistry();
             serverController.bindRemoteNodes("localhost");
 
             for (int i = 0; i < 5; i++) {

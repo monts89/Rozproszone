@@ -11,6 +11,7 @@ import computing.node.interfaces.RemoteNodeInterface;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 
 /**
@@ -50,6 +51,16 @@ public class ServerController {
                 ai++;
             }
         }
+    }
+
+    public boolean createRmiRegistry() throws RemoteException {
+        try {
+            LocateRegistry.createRegistry(1099);
+        } catch (RemoteException ex) {
+            ex.getStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public boolean bindRemoteNodes(String host) throws NotBoundException, MalformedURLException, RemoteException {
