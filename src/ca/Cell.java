@@ -11,10 +11,10 @@ import java.io.Serializable;
  * @author Andrewman
  */
 //Pojedyncza komórka
-public class Cell implements Serializable{
-    
+public class Cell implements Serializable {
+
     private double value;
-    
+
     public double getValue() {
         return value;
     }

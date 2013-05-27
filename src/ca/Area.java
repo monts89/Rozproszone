@@ -13,7 +13,7 @@ import java.io.Serializable;
 //Obiekt przechowujący zadany wycinek przestrzeni
 //Przestrzeń jest dzielona tylko w jednym wymiarze
 //Czyli podajemy poczatkowa i koncową wysokość
-public class Area implements Serializable{
+public class Area implements Serializable {
 
     private int realHeight;
     private int realWidth;
@@ -25,10 +25,10 @@ public class Area implements Serializable{
         return area[x][y][z].getValue();
     }
 
-    public void setValue(int x, int y, int z, double value){
+    public void setValue(int x, int y, int z, double value) {
         area[x][y][z].setValue(value);
     }
-    
+
     public int getRealDepht() {
         return realDepht;
     }
@@ -49,11 +49,12 @@ public class Area implements Serializable{
         return startHeight;
     }
     //Konstruktor od razu pobiera odpowiednią część cellspace w zależności od argumentów
+
     public Area(CellSpace space, int startHeight, int endHeight) {
         this.realWidth = space.getWidth() + 2;
-        if(space.getDepth() > 1){
+        if (space.getDepth() > 1) {
             this.realDepht = space.getDepth() + 2;
-        }else{
+        } else {
             this.realDepht = 1;
         }
         this.realHeight = ((endHeight + 1) - startHeight) + 2;
@@ -63,11 +64,11 @@ public class Area implements Serializable{
         this.area = new Cell[realWidth][realHeight][realDepht];
         for (int i = 0; i < realWidth; i++) {
             for (int j = 0; j < realHeight; j++) {
-                    for (int k = 0; k < realDepht; k++) {
-                        this.area[i][j][k] = new Cell();
-                        this.area[i][j][k].setValue(space.getValue(i, (startHeight - 1) + j, k));
-                        //this.area[i][j][k].setValue(2.0);
-                    }
+                for (int k = 0; k < realDepht; k++) {
+                    this.area[i][j][k] = new Cell();
+                    this.area[i][j][k].setValue(space.getValue(i, (startHeight - 1) + j, k));
+                    //this.area[i][j][k].setValue(2.0);
+                }
             }
         }
 
