@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package visualization;
+package server.visualization;
 
 import ca.CellSpace;
 import java.awt.Color;

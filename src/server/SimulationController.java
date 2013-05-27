@@ -125,4 +125,10 @@ public class SimulationController {
         MoreBalls,
         MoreBallsReverse
     }
+
+    public CellSpace getSpace() {
+        return space;
+    }
+    
+    
 }

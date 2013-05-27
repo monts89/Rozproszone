@@ -2,11 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package visualization;
+package server.visualization;
 
 import ca.CellSpace;
 import javax.swing.JSlider;
 import javax.swing.SpinnerNumberModel;
+import server.ServerController;
+import server.SimulationController;
 
 /**
  *
@@ -14,6 +16,8 @@ import javax.swing.SpinnerNumberModel;
  */
 public class MyWindow extends javax.swing.JFrame {
     private CellSpace cellSpace; 
+    private SimulationController simulationController;
+    private ServerController serverController;
     /**
      * Creates new form MyWindow
      */
@@ -21,6 +25,18 @@ public class MyWindow extends javax.swing.JFrame {
         cellSpace = new CellSpace(100, 100, 100);
 
         initComponents();
+    }
+
+    public void setSimulationController(SimulationController simulationController) {
+        this.simulationController = simulationController;
+        minTextField.setText(String.valueOf(simulationController.getMin()));
+        maxTextField.setText(String.valueOf(simulationController.getMax()));
+        setCellSpace(simulationController.getSpace());
+    }
+
+    public void setServerController(ServerController serverController) {
+        this.serverController = serverController;
+        startButton.setEnabled(true);
     }
     
     public void setCellSpace(CellSpace cellSpace){
@@ -38,14 +54,14 @@ public class MyWindow extends javax.swing.JFrame {
 
         jSlider1 = new javax.swing.JSlider(JSlider.HORIZONTAL,
             1, cellSpace.getDepth(), 1);
-        visualizationPanel2 = new visualization.VisualizationPanel(cellSpace, jSlider1);
+        visualizationPanel2 = new server.visualization.VisualizationPanel(cellSpace, jSlider1);
         startButton = new javax.swing.JButton();
         stopButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        maxTextField = new javax.swing.JTextField();
         setMaxButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        minTextField = new javax.swing.JTextField();
         setMinButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         layerTextField = new javax.swing.JTextField();
@@ -81,6 +97,7 @@ public class MyWindow extends javax.swing.JFrame {
         );
 
         startButton.setText("Start");
+        startButton.setEnabled(false);
         startButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 startButtonMouseClicked(evt);
@@ -97,8 +114,7 @@ public class MyWindow extends javax.swing.JFrame {
         jLabel1.setText("Max diff value");
         jLabel1.setToolTipText("");
 
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("100");
+        maxTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         setMaxButton.setText("Set");
         setMaxButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -109,8 +125,7 @@ public class MyWindow extends javax.swing.JFrame {
 
         jLabel2.setText("Min diff value");
 
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.setText("1");
+        minTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         setMinButton.setText("Set");
         setMinButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -143,12 +158,12 @@ public class MyWindow extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField2))
+                                        .addComponent(minTextField))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                             .addComponent(jLabel1)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(maxTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                             .addComponent(setMaxButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGap(40, 40, 40))))
@@ -179,14 +194,14 @@ public class MyWindow extends javax.swing.JFrame {
                                 .addComponent(layerTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(maxTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(setMaxButton)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(minTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(setMinButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -218,12 +233,12 @@ public class MyWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_stopButtonMouseClicked
 
     private void setMaxButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setMaxButtonMouseClicked
-        visualizationPanel2.setDiffHight(Double.parseDouble(jTextField1.getText()));
+        visualizationPanel2.setDiffHight(Double.parseDouble(maxTextField.getText()));
         visualizationPanel2.repaint();
     }//GEN-LAST:event_setMaxButtonMouseClicked
 
     private void setMinButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setMinButtonMouseClicked
-        visualizationPanel2.setDiffLow(Double.parseDouble(jTextField2.getText()));
+        visualizationPanel2.setDiffLow(Double.parseDouble(minTextField.getText()));
         visualizationPanel2.repaint();
     }//GEN-LAST:event_setMinButtonMouseClicked
 
@@ -233,13 +248,13 @@ public class MyWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JSlider jSlider1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField layerTextField;
+    private javax.swing.JTextField maxTextField;
+    private javax.swing.JTextField minTextField;
     private javax.swing.JButton setMaxButton;
     private javax.swing.JButton setMinButton;
     private javax.swing.JButton startButton;
     private javax.swing.JButton stopButton;
-    private visualization.VisualizationPanel visualizationPanel2;
+    private server.visualization.VisualizationPanel visualizationPanel2;
     // End of variables declaration//GEN-END:variables
 }
