@@ -36,11 +36,12 @@ public class ServerMain {
         CellSpace newSpace = new CellSpace(100, 100, 100);
 
         simulationController = new SimulationController(newSpace, 100, 0);
+        simulationController.init(SimulationController.PREDEFINED_CONDITIONS.Ball);
         serverController = new ServerController(newSpace);
         window.setCellSpace(newSpace);
 
         try {
-            LocateRegistry.createRegistry(1099);
+            serverController.createRmiRegistry();
             serverController.bindRemoteNodes("localhost");
 
             for (int i = 0; i < 5; i++) {
