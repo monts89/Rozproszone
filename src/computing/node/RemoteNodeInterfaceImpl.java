@@ -9,9 +9,9 @@ import computing.methodsinterfaces.IterationMethodI;
 public class RemoteNodeInterfaceImpl extends UnicastRemoteObject implements RemoteNodeInterface {
 
     private static final long serialVersionUID = 1L;
-    private String host = "";
     private IterationMethodI method = null;
-
+    private static int iteration = 0;
+    
     protected RemoteNodeInterfaceImpl(IterationMethodI methodInterface) throws RemoteException {
         super();
         this.method = methodInterface;
@@ -20,11 +20,7 @@ public class RemoteNodeInterfaceImpl extends UnicastRemoteObject implements Remo
     @Override
     public Area computeIteration(Area area) throws RemoteException {
         this.method.nextIteration(area);
+        System.out.printf("Iteration:%d \n", iteration++);
         return area;
-    }
-
-    @Override
-    public String getHost() throws RemoteException {
-        return host;
     }
 }

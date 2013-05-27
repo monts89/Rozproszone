@@ -5,6 +5,11 @@
 package server.visualization;
 
 import ca.CellSpace;
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JSlider;
 import javax.swing.SpinnerNumberModel;
 import server.ServerController;
@@ -54,7 +59,6 @@ public class MyWindow extends javax.swing.JFrame {
 
         jSlider1 = new javax.swing.JSlider(JSlider.HORIZONTAL,
             1, cellSpace.getDepth(), 1);
-        visualizationPanel2 = new server.visualization.VisualizationPanel(cellSpace, jSlider1);
         startButton = new javax.swing.JButton();
         stopButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -65,6 +69,7 @@ public class MyWindow extends javax.swing.JFrame {
         setMinButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         layerTextField = new javax.swing.JTextField();
+        visualizationPanel2 = new server.visualization.VisualizationPanel(cellSpace, jSlider1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(720, 630));
@@ -82,19 +87,6 @@ public class MyWindow extends javax.swing.JFrame {
                 jSlider1StateChanged(evt);
             }
         });
-
-        visualizationPanel2.setPreferredSize(new java.awt.Dimension(500, 500));
-
-        javax.swing.GroupLayout visualizationPanel2Layout = new javax.swing.GroupLayout(visualizationPanel2);
-        visualizationPanel2.setLayout(visualizationPanel2Layout);
-        visualizationPanel2Layout.setHorizontalGroup(
-            visualizationPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 508, Short.MAX_VALUE)
-        );
-        visualizationPanel2Layout.setVerticalGroup(
-            visualizationPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
-        );
 
         startButton.setText("Start");
         startButton.setEnabled(false);
@@ -142,6 +134,20 @@ public class MyWindow extends javax.swing.JFrame {
         layerTextField.setText("1");
         layerTextField.setFocusable(false);
 
+        visualizationPanel2.setMinimumSize(new java.awt.Dimension(500, 500));
+        visualizationPanel2.setPreferredSize(new java.awt.Dimension(500, 500));
+
+        javax.swing.GroupLayout visualizationPanel2Layout = new javax.swing.GroupLayout(visualizationPanel2);
+        visualizationPanel2.setLayout(visualizationPanel2Layout);
+        visualizationPanel2Layout.setHorizontalGroup(
+            visualizationPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 500, Short.MAX_VALUE)
+        );
+        visualizationPanel2Layout.setVerticalGroup(
+            visualizationPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 500, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -150,7 +156,7 @@ public class MyWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(visualizationPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(visualizationPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -176,17 +182,16 @@ public class MyWindow extends javax.swing.JFrame {
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(layerTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 33, Short.MAX_VALUE))
+                        .addGap(0, 32, Short.MAX_VALUE))
                     .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
+                        .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
@@ -208,10 +213,12 @@ public class MyWindow extends javax.swing.JFrame {
                         .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(stopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(visualizationPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(visualizationPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         setMaxButton.getAccessibleContext().setAccessibleName("setButton");
@@ -225,7 +232,16 @@ public class MyWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jSlider1StateChanged
 
     private void startButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startButtonMouseClicked
-        // TODO add your handling code here
+        try {
+            serverController.bindRemoteNodes("localhost");
+        } catch (NotBoundException ex) {
+            Logger.getLogger(MyWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(MyWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(MyWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        serverController.makeRemoteCall();
     }//GEN-LAST:event_startButtonMouseClicked
 
     private void stopButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stopButtonMouseClicked

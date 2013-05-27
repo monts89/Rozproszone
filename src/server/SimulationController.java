@@ -46,8 +46,9 @@ public class SimulationController {
         minC = min;
     }
     
-    public void changeConditions(int choice){
-        
+    public void changeConditions(PREDEFINED_CONDITIONS choice){
+        this.chosenModel = choice;
+        this.reset();
     }
 
     public void init(PREDEFINED_CONDITIONS choice) {

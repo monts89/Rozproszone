@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.JSpinner;
 
 /**
  *
