@@ -23,9 +23,14 @@ public class ServerController {
 
     private CellSpace cellSpace;
     private ArrayList<RemoteNodeInterface> currentNodesList = new ArrayList<RemoteNodeInterface>();
+    private ArrayList<String> hostNames = new ArrayList<String>();
 
     public ServerController(CellSpace space) {
         this.cellSpace = space;
+    }
+
+    public ArrayList<RemoteNodeInterface> getCurrentNodesList() {
+        return currentNodesList;
     }
 
     //Wypisanie
@@ -63,12 +68,48 @@ public class ServerController {
         return true;
     }
 
-    public boolean bindRemoteNodes(String host) throws NotBoundException, MalformedURLException, RemoteException {
-        String[] names = Naming.list(String.format("rmi://%s:1099", host));
-        for (String name : names) {
-            currentNodesList.add((RemoteNodeInterface) Naming.lookup(name));
+    public boolean bindRemoteNodes() {
+
+        for (String host : hostNames) {
+
+            try {
+                String[] names = Naming.list(String.format("rmi://%s:1099", host));
+                for (String name : names) {
+                    currentNodesList.add((RemoteNodeInterface) Naming.lookup(name));
+                }
+            } catch (RemoteException remoteException) {
+            } catch (MalformedURLException malformedURLException) {
+            } catch (NotBoundException notBoundException) {
+            }
+
         }
         return true;
+    }
+
+    public void clearCurrentNodes() {
+        currentNodesList.clear();
+    }
+
+    public ArrayList<String> getNodesNames() {
+        ArrayList<String> names = new ArrayList<String>();
+
+        try {
+            for (RemoteNodeInterface node : currentNodesList) {
+                names.add(node.getNodeName());
+            }
+        } catch (RemoteException remoteException) {
+            remoteException.printStackTrace();
+        }
+        return names;
+    }
+
+    public ArrayList<String> getHostsNames() {
+
+        return hostNames;
+    }
+
+    public void addHost(String address) {
+        hostNames.add(address);
     }
 
     public boolean makeRemoteCall() {
