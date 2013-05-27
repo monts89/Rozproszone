@@ -8,9 +8,10 @@ import java.util.Random;
 public class ComputingNode {
 
     public static void main(String[] args) throws Exception {
-        RemoteNodeInterfaceImpl rMIDemoImpl = new RemoteNodeInterfaceImpl(new FeForwardMethod3D());
         int number = new Random().nextInt();
-        Naming.rebind(String.format("ComputingNode%d", number), rMIDemoImpl);
-        System.out.printf("Serwer obliczeniowy nr %d", number);
+        RemoteNodeInterfaceImpl rMIDemoImpl = 
+                new RemoteNodeInterfaceImpl(new FeForwardMethod3D(), String.format("ComputingNode%d", number));
+        Naming.rebind(rMIDemoImpl.getNodeName(), rMIDemoImpl);
+        System.out.printf("Serwer obliczeniowy nr %d \n", number);
     }
 }
