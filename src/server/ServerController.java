@@ -104,7 +104,6 @@ public class ServerController {
     }
 
     public ArrayList<String> getHostsNames() {
-
         return hostNames;
     }
 
