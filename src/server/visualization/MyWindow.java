@@ -20,9 +20,11 @@ import server.SimulationController;
  * @author Lukasz
  */
 public class MyWindow extends javax.swing.JFrame {
-    private CellSpace cellSpace; 
+
+    private CellSpace cellSpace;
     private SimulationController simulationController;
     private ServerController serverController;
+
     /**
      * Creates new form MyWindow
      */
@@ -43,11 +45,12 @@ public class MyWindow extends javax.swing.JFrame {
         this.serverController = serverController;
         startButton.setEnabled(true);
     }
-    
-    public void setCellSpace(CellSpace cellSpace){
+
+    public void setCellSpace(CellSpace cellSpace) {
         this.cellSpace = cellSpace;
         visualizationPanel2.setCellSpace(cellSpace);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -245,15 +248,7 @@ public class MyWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jSlider1StateChanged
 
     private void startButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startButtonMouseClicked
-        try {
-            serverController.bindRemoteNodes("localhost");
-        } catch (NotBoundException ex) {
-            Logger.getLogger(MyWindow.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(MyWindow.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RemoteException ex) {
-            Logger.getLogger(MyWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
         serverController.makeRemoteCall();
         visualizationPanel2.repaint();
     }//GEN-LAST:event_startButtonMouseClicked
@@ -273,10 +268,13 @@ public class MyWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_setMinButtonMouseClicked
 
     private void refreshButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshButtonMouseClicked
-        // TODO add your handling code here:
+        serverController.clearCurrentNodes();
+        serverController.addHost("localhost");
+        serverController.bindRemoteNodes();
+        for (String hostName : serverController.getHostsNames()) {
+            nodesListTextArea.append(String.format("%s \n", hostName));
+        }
     }//GEN-LAST:event_refreshButtonMouseClicked
-
- 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
