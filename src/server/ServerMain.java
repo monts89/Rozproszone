@@ -5,6 +5,9 @@
 package server;
 
 import ca.CellSpace;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import server.ServerController;
 import server.visualization.MyWindow;
 
