@@ -16,9 +16,10 @@ import javax.swing.JSpinner;
  * @author Lukasz
  */
 public class VisualizationPanel extends JPanel {
-
     private CellSpace cellSpace;
     private JSlider slider;
+    private double diffHight;
+    private double diffLow;
 
     /**
      * Creates new form VisualizationPanel
@@ -36,19 +37,27 @@ public class VisualizationPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        double tH;
+        if (diffHight != 0) {
+            tH = diffHight / 255;
+        } else {
+            tH = 1;
+        }
         for (int i = 0; i < cellSpace.getHeight(); i++) {
             for (int j = 0; j < cellSpace.getWidth(); j++) {
                 int layer = (int)slider.getValue() - 1;
                 Color c = null;
-                if (cellSpace.getValue(i, j, layer) != 0) {
-                    c = new Color(255, 0, 0, (int)cellSpace.getValue(i, j, layer) + 150);
-                } else {
+                if (cellSpace.getValue(i, j, layer) > diffLow) {
+                    c = new Color(255, 0, 0, (int)(cellSpace.getValue(i, j, layer) / tH));
+                } else if (cellSpace.getValue(i, j, layer) == diffLow) {
                     c = new Color(0, 0, 255, 80);
+                } else {
+                    c = Color.BLACK;
                 }
                 g.setColor(c);
-                g.fillRect(i * 5, j * 5, 5, 5);
+                g.fillRect(i*5, j*5, 5, 5);
                 g.setColor(Color.BLACK);
-                g.drawRect(i * 5, j * 5, 5, 5);
+                g.drawRect(i*5, j*5, 5, 5);
             }
         }
     }
@@ -57,6 +66,15 @@ public class VisualizationPanel extends JPanel {
         this.cellSpace = cellSpace;
         this.repaint();
     }
+    
+    public void setDiffHight(double diffHight){
+        this.diffHight = diffHight;
+    }
+
+    public void setDiffLow(double diffLow) {
+        this.diffLow = diffLow;
+    }
+     
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -80,4 +98,6 @@ public class VisualizationPanel extends JPanel {
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+    
 }
