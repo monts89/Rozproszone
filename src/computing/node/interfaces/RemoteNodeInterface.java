@@ -8,5 +8,5 @@ public interface RemoteNodeInterface extends Remote {
 
     public Area computeIteration(Area area) throws RemoteException;
 
-    public String getHost();
+    public String getHost() throws RemoteException;
 }

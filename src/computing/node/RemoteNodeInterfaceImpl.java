@@ -24,7 +24,7 @@ public class RemoteNodeInterfaceImpl extends UnicastRemoteObject implements Remo
     }
 
     @Override
-    public String getHost() {
+    public String getHost() throws RemoteException {
         return host;
     }
 }
