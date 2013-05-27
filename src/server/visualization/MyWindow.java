@@ -255,6 +255,7 @@ public class MyWindow extends javax.swing.JFrame {
             Logger.getLogger(MyWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
         serverController.makeRemoteCall();
+        visualizationPanel2.repaint();
     }//GEN-LAST:event_startButtonMouseClicked
 
     private void stopButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stopButtonMouseClicked
