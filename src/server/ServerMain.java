@@ -5,11 +5,8 @@
 package server;
 
 import ca.CellSpace;
-import java.rmi.RemoteException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import server.ServerController;
-import visualization.MyWindow;
+import server.visualization.MyWindow;
 
 /**
  *
@@ -38,7 +35,8 @@ public class ServerMain {
         simulationController = new SimulationController(newSpace, 100, 0);
         simulationController.init(SimulationController.PREDEFINED_CONDITIONS.Ball);
         serverController = new ServerController(newSpace);
-        window.setCellSpace(newSpace);
+        window.setSimulationController(simulationController);
+        window.setServerController(serverController);
 
         try {
             serverController.createRmiRegistry();
