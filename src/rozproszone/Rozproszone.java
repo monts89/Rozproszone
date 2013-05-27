@@ -36,10 +36,10 @@ public class Rozproszone {
         newSpace.setValue(20, 40, 0, 100);
         newSpace.setValue(90, 70, 0, 100);
         
-        newSpace.setValue(90, 30, 1, 1);
-        newSpace.setValue(90, 50, 1, 1);
-        newSpace.setValue(90, 40, 1, 1);
-        newSpace.setValue(90, 70, 1, 1);
+        newSpace.setValue(90, 30, 1, 0.001);
+        newSpace.setValue(90, 50, 1, 0.001);
+        newSpace.setValue(90, 40, 1, 0.001);
+        newSpace.setValue(90, 70, 1, 0.001);
         
         window.setCellSpace(newSpace);
         /////////////////////////////////////
