@@ -10,6 +10,8 @@ import java.util.List;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Map.Entry;
+import java.util.*;
 
 
 /**
@@ -18,14 +20,9 @@ import java.io.InputStreamReader;
  */
 public interface IterationMethodI {
 
-    public List arguments_list = new ArrayList();
+    public Map<String, Double> parameters = new HashMap<String, Double>();
     
-    public void set_arguments( int x);
-    
-    
-    
-    
-    public void nextIteration(Area area);
+    public abstract void nextIteration(Area area);
 }
 
 

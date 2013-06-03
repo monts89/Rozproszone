@@ -6,6 +6,7 @@ package computing.methods;
 
 import computing.methodsinterfaces.*;
 import ca.Area;
+import java.util.Random;
 
 /**
  *
@@ -16,11 +17,7 @@ import ca.Area;
 public class FeForwardMethod3D implements IterationMethodI {
 
     public FeForwardMethod3D() {
-    }
-
-    
-    @Override
-    public void set_arguments( int x){
+        parameters.put(DiffusionParams.Random.name, new Random().nextDouble());
     }
     
     @Override
@@ -32,9 +29,19 @@ public class FeForwardMethod3D implements IterationMethodI {
                     double newValue = (area.getValue(i, j - 1, k)
                             + area.getValue(i - 1, j, k) + area.getValue(i, j, k) + area.getValue(i + 1, j, k)
                             + area.getValue(i, j + 1, k) + area.getValue(i, j, k + 1) + area.getValue(i, j, k - 1)) / 7;
-                    area.setValue(i, j, k, newValue);
+                    area.setValue(i, j, k, newValue + parameters.get(DiffusionParams.Random.name));
                 }
             }
+        }
+    }
+    
+    enum DiffusionParams{
+        
+        Random("Random");    
+        String name;
+        
+        DiffusionParams(String name) {
+            this.name = name;
         }
     }
 }
