@@ -18,6 +18,11 @@ public class FeForwardMethod3D implements IterationMethodI {
     public FeForwardMethod3D() {
     }
 
+    
+    @Override
+    public void set_arguments( int x){
+    }
+    
     @Override
     public void nextIteration(Area area) {
         for (int i = 1; i < area.getRealWidth() - 2; i++) {
@@ -27,7 +32,6 @@ public class FeForwardMethod3D implements IterationMethodI {
                     double newValue = (area.getValue(i, j - 1, k)
                             + area.getValue(i - 1, j, k) + area.getValue(i, j, k) + area.getValue(i + 1, j, k)
                             + area.getValue(i, j + 1, k) + area.getValue(i, j, k + 1) + area.getValue(i, j, k - 1)) / 7;
-
                     area.setValue(i, j, k, newValue);
                 }
             }
