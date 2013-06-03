@@ -6,6 +6,7 @@ import java.rmi.Naming;
 import computing.node.RemoteNodeInterfaceImpl;
 import java.util.Random;
 
+
 public class ComputingNode {
 
     public static void main(String[] args) throws Exception {
