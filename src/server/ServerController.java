@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package server;
 
 import ca.Area;
@@ -13,6 +9,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -112,28 +110,76 @@ public class ServerController {
     }
 
     public boolean makeRemoteCall() {
+       
         ArrayList<Area> areas = new ArrayList<Area>();
+        
         int i = 0;
         int nodesCount = currentNodesList.size();
         int spaceHeight = this.cellSpace.getHeight();
         int part = spaceHeight / nodesCount;
+        final ArrayList<Area> tmpAreas=areas;
         try {
+             
             for (RemoteNodeInterface node : currentNodesList) {
-                if (i != nodesCount - 1) {
-                    areas.add((Area) node.computeIteration(new Area(this.cellSpace, part * i, (part * (i + 1)))));
-                } else {
-                    areas.add((Area) node.computeIteration(new Area(this.cellSpace, part * i, spaceHeight)));
+               
+                final RemoteNodeInterface tmpNode = node;
+                final CellSpace tmpCellSpace = cellSpace;
+                final int tmpPart=part;
+                final int tmpI =i;
+                final int tmpNodesCount = nodesCount;
+                final int tmpSpaceHeight = spaceHeight;
+                ArrayList<Thread> threadsList = new ArrayList<Thread>();
+                
+             //   if (i != nodesCount - 1) {
+                    threadsList.add(new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            try {
+                                   if(tmpI != tmpNodesCount-1){
+                                   tmpAreas.add((Area) tmpNode.computeIteration(new Area(tmpCellSpace, tmpPart * tmpI, (tmpPart * (tmpI + 1)))));
+                                   }else{
+                                    tmpAreas.add((Area) tmpNode.computeIteration(new Area(tmpCellSpace, tmpPart * tmpI, tmpSpaceHeight)));
+                                   }
+                                   
+                                 //  tmpAreas.add((Area) tmpNode.computeIteration(new Area(tmpCellSpace, tmpPart * tmpI, (tmpPart * (tmpI + 1)))));
+                            } catch (RemoteException ex) {
+                                Logger.getLogger(ServerController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            
+                        }
+                    }));
+                    //areas.add((Area) node.computeIteration(new Area(this.cellSpace, part * i, (part * (i + 1)))));
+                for (Thread thread : threadsList) {
+                    thread.start();
+                  
                 }
+                
+                for (Thread thread : threadsList) {
+                    thread.join();
+                }
+                   
+//                } else {
+//                    areas.add((Area) node.computeIteration(new Area(this., part * i, spaceHeight)));
+//                 
+//                }
                 i++;
             }
-        } catch (RemoteException remoteException) {
+          
+        } 
+        catch (Exception remoteException) {
             remoteException.printStackTrace();
             return false;
         }
-
-        for (Area area : areas) {
-            writeAreaToCellSpace(area);
-        }
+       
+        
+             for (Area area : tmpAreas) {
+             writeAreaToCellSpace(area);
+            }
+        
+        
+       
+    
         return true;
     }
 }
