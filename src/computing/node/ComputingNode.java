@@ -12,15 +12,18 @@ public class ComputingNode {
 
     public static void main(String[] args) throws Exception {
         int number = new Random().nextInt();
+        
+        final NodeWindow window = new NodeWindow();
+        window.getjLabel1().setText("Serwer obliczeniowy nr " + number);
+        
         RemoteNodeInterfaceImpl rMIDemoImpl = 
-                new RemoteNodeInterfaceImpl(new FeForwardMethod3D(), String.format("ComputingNode%d", number));
+                new RemoteNodeInterfaceImpl(new FeForwardMethod3D(), String.format("ComputingNode%d", number), window);
                 // do testow Rule_30()
                 //new RemoteNodeInterfaceImpl(new Rule_30(), String.format("ComputingNode%d", number));
                 
         Naming.rebind(rMIDemoImpl.getNodeName(), rMIDemoImpl);
         System.out.printf("Serwer obliczeniowy nr %d \n", number);
-        final NodeWindow window = new NodeWindow();
-        window.getjLabel1().setText("Serwer obliczeniowy nr "+number);
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
