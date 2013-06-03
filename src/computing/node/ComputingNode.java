@@ -5,6 +5,7 @@ import computing.methods.Rule_30;
 import java.rmi.Naming;
 import computing.node.RemoteNodeInterfaceImpl;
 import java.util.Random;
+import server.visualization.NodeWindow;
 
 
 public class ComputingNode {
@@ -18,5 +19,13 @@ public class ComputingNode {
                 
         Naming.rebind(rMIDemoImpl.getNodeName(), rMIDemoImpl);
         System.out.printf("Serwer obliczeniowy nr %d \n", number);
+        final NodeWindow window = new NodeWindow();
+        window.getjLabel1().setText("Serwer obliczeniowy nr "+number);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                window.setVisible(true);
+            }
+        });
     }
 }

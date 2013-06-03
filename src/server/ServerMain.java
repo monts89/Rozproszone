@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import server.ServerController;
 import server.visualization.MyWindow;
+import server.visualization.SelectModeWindow;
 
 /**
  *
@@ -19,7 +20,8 @@ import server.visualization.MyWindow;
  */
 public class ServerMain {
 
-    private static MyWindow window = new MyWindow();
+    //private static MyWindow window = new MyWindow();
+    private static SelectModeWindow window = new SelectModeWindow();
     private static ServerController serverController;
     private static SimulationController simulationController;
 
@@ -27,45 +29,52 @@ public class ServerMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws Exception {
-
-        int answer = JOptionPane.showConfirmDialog(null,"Do you want to run as Node? No - run as serwer","Run form", JOptionPane.YES_NO_OPTION);
         
-        if(answer == 1)
-        {      
-            java.awt.EventQueue.invokeLater(new Runnable() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 window.setVisible(true);
             }
         });
-        
-            CellSpace newSpace = new CellSpace(100, 100, 100);
 
-            simulationController = new SimulationController(newSpace, 100, 0);
-            simulationController.init(SimulationController.PREDEFINED_CONDITIONS.Ball);
-            serverController = new ServerController(newSpace);
-            window.setSimulationController(simulationController);
-            window.setServerController(serverController);
-
-            try {
-                serverController.createRmiRegistry();
-            } catch (RemoteException ex) {
-                Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            // do testowania czy działa ( interacje przechodza ale wywala jakies rzeczy w NetBeansie )
-            answer = JOptionPane.showConfirmDialog(null,"Would you like to run Node as well?","Node run", JOptionPane.YES_NO_OPTION);
-            
-        }
-        
-        
-        if( answer == 0)
-        {
-            if( serverController != null)
-            {
-                ComputingNode.main(args);
-            }
-            else
-               JOptionPane.showMessageDialog(null,"Error no serwer found","Error",JOptionPane.ERROR_MESSAGE);
-        }
-        
+//        int answer = JOptionPane.showConfirmDialog(null,"Do you want to run as Node? No - run as serwer","Run form", JOptionPane.YES_NO_OPTION);
+//        
+//        if(answer == 1)
+//        {      
+//            java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                window.setVisible(true);
+//            }
+//        });
+//        
+//            CellSpace newSpace = new CellSpace(100, 100, 100);
+//
+//            simulationController = new SimulationController(newSpace, 100, 0);
+//            simulationController.init(SimulationController.PREDEFINED_CONDITIONS.Ball);
+//            serverController = new ServerController(newSpace);
+//            window.setSimulationController(simulationController);
+//            window.setServerController(serverController);
+//
+//            try {
+//                serverController.createRmiRegistry();
+//            } catch (RemoteException ex) {
+//                Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            // do testowania czy działa ( interacje przechodza ale wywala jakies rzeczy w NetBeansie )
+//            answer = JOptionPane.showConfirmDialog(null,"Would you like to run Node as well?","Node run", JOptionPane.YES_NO_OPTION);
+//            
+//        }
+//        
+//        
+//        if( answer == 0)
+//        {
+//            if( serverController != null)
+//            {
+//                ComputingNode.main(args);
+//            }
+//            else
+//               JOptionPane.showMessageDialog(null,"Error no serwer found","Error",JOptionPane.ERROR_MESSAGE);
+//        }
+//        
     }
 }
