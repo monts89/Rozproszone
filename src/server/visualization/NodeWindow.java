@@ -38,7 +38,6 @@ public class NodeWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(200, 100));
         setMinimumSize(new java.awt.Dimension(200, 100));
-        setPreferredSize(new java.awt.Dimension(200, 100));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

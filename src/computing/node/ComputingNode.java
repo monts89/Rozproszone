@@ -1,7 +1,6 @@
 package computing.node;
 
 import computing.methods.FeForwardMethod3D;
-import computing.methods.Rule_30;
 import java.rmi.Naming;
 import computing.node.RemoteNodeInterfaceImpl;
 import java.util.Random;
