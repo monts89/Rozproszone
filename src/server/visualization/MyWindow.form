@@ -299,7 +299,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="hostAdressTextField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Adress"/>
+        <Property name="text" type="java.lang.String" value="localhost"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="addHostButton">

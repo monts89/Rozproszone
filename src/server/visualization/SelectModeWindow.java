@@ -126,11 +126,11 @@ public class SelectModeWindow extends javax.swing.JFrame {
             ServerController serverController = new ServerController(newSpace);
             window.setSimulationController(simulationController);
             window.setServerController(serverController);
-            try {
-                serverController.createRmiRegistry();
-            } catch (RemoteException ex) {
-                Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                serverController.createRmiRegistry();
+//            } catch (RemoteException ex) {
+//                Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
+//            }
             java.awt.EventQueue.invokeLater(new Runnable() {
                 @Override
                 public void run() {

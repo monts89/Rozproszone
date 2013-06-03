@@ -67,7 +67,7 @@ public class ServerController {
     }
 
     public boolean bindRemoteNodes() {
-
+        currentNodesList.clear();
         for (String host : hostNames) {
 
             try {
@@ -106,80 +106,81 @@ public class ServerController {
     }
 
     public void addHost(String address) {
-        hostNames.add(address);
+        if (!hostNames.contains(address)) {
+            hostNames.add(address);
+        }
     }
 
     public boolean makeRemoteCall() {
-       
+
         ArrayList<Area> areas = new ArrayList<Area>();
-        
+
         int i = 0;
         int nodesCount = currentNodesList.size();
         int spaceHeight = this.cellSpace.getHeight();
         int part = spaceHeight / nodesCount;
-        final ArrayList<Area> tmpAreas=areas;
+        final ArrayList<Area> tmpAreas = areas;
         try {
-             
+
             for (RemoteNodeInterface node : currentNodesList) {
-               
+
                 final RemoteNodeInterface tmpNode = node;
                 final CellSpace tmpCellSpace = cellSpace;
-                final int tmpPart=part;
-                final int tmpI =i;
+                final int tmpPart = part;
+                final int tmpI = i;
                 final int tmpNodesCount = nodesCount;
                 final int tmpSpaceHeight = spaceHeight;
                 ArrayList<Thread> threadsList = new ArrayList<Thread>();
-                
-             //   if (i != nodesCount - 1) {
-                    threadsList.add(new Thread(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            try {
-                                   if(tmpI != tmpNodesCount-1){
-                                   tmpAreas.add((Area) tmpNode.computeIteration(new Area(tmpCellSpace, tmpPart * tmpI, (tmpPart * (tmpI + 1)))));
-                                   }else{
-                                    tmpAreas.add((Area) tmpNode.computeIteration(new Area(tmpCellSpace, tmpPart * tmpI, tmpSpaceHeight)));
-                                   }
-                                   
-                                 //  tmpAreas.add((Area) tmpNode.computeIteration(new Area(tmpCellSpace, tmpPart * tmpI, (tmpPart * (tmpI + 1)))));
-                            } catch (RemoteException ex) {
-                                Logger.getLogger(ServerController.class.getName()).log(Level.SEVERE, null, ex);
+                //   if (i != nodesCount - 1) {
+                threadsList.add(new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        try {
+                            if (tmpI != tmpNodesCount - 1) {
+                                tmpAreas.add((Area) tmpNode.computeIteration(new Area(tmpCellSpace, tmpPart * tmpI, (tmpPart * (tmpI + 1)))));
+                            } else {
+                                tmpAreas.add((Area) tmpNode.computeIteration(new Area(tmpCellSpace, tmpPart * tmpI, tmpSpaceHeight)));
                             }
-                            
+
+                            //  tmpAreas.add((Area) tmpNode.computeIteration(new Area(tmpCellSpace, tmpPart * tmpI, (tmpPart * (tmpI + 1)))));
+                        } catch (RemoteException ex) {
+                            Logger.getLogger(ServerController.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    }));
-                    //areas.add((Area) node.computeIteration(new Area(this.cellSpace, part * i, (part * (i + 1)))));
+
+                    }
+                }));
+                //areas.add((Area) node.computeIteration(new Area(this.cellSpace, part * i, (part * (i + 1)))));
                 for (Thread thread : threadsList) {
                     thread.start();
-                  
+
                 }
-                
+
                 for (Thread thread : threadsList) {
                     thread.join();
                 }
-                   
+
 //                } else {
 //                    areas.add((Area) node.computeIteration(new Area(this., part * i, spaceHeight)));
 //                 
 //                }
                 i++;
             }
-          
-        } 
-        catch (Exception remoteException) {
+
+        } catch (Exception remoteException) {
             remoteException.printStackTrace();
             return false;
         }
-       
-        
-             for (Area area : tmpAreas) {
-             writeAreaToCellSpace(area);
-            }
-        
-        
-       
-    
+
+
+        for (Area area : tmpAreas) {
+            writeAreaToCellSpace(area);
+        }
+
+
+
+
         return true;
     }
 }

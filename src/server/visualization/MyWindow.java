@@ -172,7 +172,7 @@ public class MyWindow extends javax.swing.JFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Add host:");
 
-        hostAdressTextField.setText("Adress");
+        hostAdressTextField.setText("localhost");
 
         addHostButton.setText("Add");
         addHostButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -309,23 +309,26 @@ public class MyWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_setMinButtonMouseClicked
 
     private void refreshButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshButtonMouseClicked
-        serverController.clearCurrentNodes();
-        serverController.addHost("localhost");
+        refreshHostList();
+    }//GEN-LAST:event_refreshButtonMouseClicked
+
+    private void refreshHostList() {
         nodesListTextArea.setText("");
         serverController.bindRemoteNodes();
         for (String hostName : serverController.getHostsNames()) {
             nodesListTextArea.append(String.format("%s \n", hostName));
         }
-    }//GEN-LAST:event_refreshButtonMouseClicked
+    }
 
     private void addHostButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addHostButtonMouseClicked
-        // TODO add your handling code here:
+        serverController.addHost(hostAdressTextField.getText());  
+        refreshHostList();
     }//GEN-LAST:event_addHostButtonMouseClicked
 
     private void resetButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetButtonMouseClicked
-        // TODO add your handling code here:
+        simulationController.reset();
+        visualizationPanel2.repaint();
     }//GEN-LAST:event_resetButtonMouseClicked
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addHostButton;
     private javax.swing.JTextField hostAdressTextField;

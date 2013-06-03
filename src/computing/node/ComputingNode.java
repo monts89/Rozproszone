@@ -3,6 +3,8 @@ package computing.node;
 import computing.methods.FeForwardMethod3D;
 import java.rmi.Naming;
 import computing.node.RemoteNodeInterfaceImpl;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.util.Random;
 import server.visualization.NodeWindow;
 
@@ -19,7 +21,13 @@ public class ComputingNode {
                 new RemoteNodeInterfaceImpl(new FeForwardMethod3D(), String.format("ComputingNode%d", number), window);
                 // do testow Rule_30()
                 //new RemoteNodeInterfaceImpl(new Rule_30(), String.format("ComputingNode%d", number));
-                
+        
+        try {
+            LocateRegistry.createRegistry(1099);
+        } catch (RemoteException ex) {
+            ex.getStackTrace();
+        }
+        
         Naming.rebind(rMIDemoImpl.getNodeName(), rMIDemoImpl);
         System.out.printf("Serwer obliczeniowy nr %d \n", number);
         
