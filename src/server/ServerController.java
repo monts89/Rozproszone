@@ -9,6 +9,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,7 +24,8 @@ public class ServerController {
     private CellSpace cellSpace;
     private ArrayList<RemoteNodeInterface> currentNodesList = new ArrayList<RemoteNodeInterface>();
     private ArrayList<String> hostNames = new ArrayList<String>();
-
+    private Map<String, Double> hm = new HashMap<String, Double>();
+    
     public ServerController(CellSpace space) {
         this.cellSpace = space;
     }
@@ -120,6 +123,36 @@ public class ServerController {
         int spaceHeight = this.cellSpace.getHeight();
         int part = spaceHeight / nodesCount;
         final ArrayList<Area> tmpAreas = areas;
+        
+        ArrayList node_name = getNodesNames();
+        Boolean add = true;
+        if( node_name.size() != hm.size())
+        {
+            for(int e=0;e<node_name.size();e++)
+            {
+                for(int f=0;f<hm.size();f++)
+                {
+                    if(hm.containsKey(node_name.get(e)))
+                    {
+                        add = false;
+                        break;
+                    }
+                    else
+                    {
+                        add = true;
+                    }     
+                }
+                if( add == true)
+                    hm.put((String)node_name.get(e), 0.0);
+            }
+            
+        }
+        
+        final Map<String, Double> temp_map = hm;
+        
+
+        
+        
         try {
 
             for (RemoteNodeInterface node : currentNodesList) {
@@ -133,15 +166,19 @@ public class ServerController {
                 ArrayList<Thread> threadsList = new ArrayList<Thread>();
 
                 //   if (i != nodesCount - 1) {
-                threadsList.add(new Thread(new Runnable() {
-
+                threadsList.add(new Thread(new Runnable() {  
+                
+                
                     @Override
                     public void run() {
                         try {
                             if (tmpI != tmpNodesCount - 1) {
-                                tmpAreas.add((Area) tmpNode.computeIteration(new Area(tmpCellSpace, tmpPart * tmpI, (tmpPart * (tmpI + 1)))));
+                                tmpAreas.add((Area) tmpNode.computeIteration(new Area(tmpCellSpace, tmpPart * tmpI, (tmpPart * (tmpI + 1))), temp_map ));
+                                //tmpNode.get_local_map();
+                                hm.put(tmpNode.getNodeName(), (double)tmpNode.get_local_map().get(tmpNode.getNodeName()));     
                             } else {
-                                tmpAreas.add((Area) tmpNode.computeIteration(new Area(tmpCellSpace, tmpPart * tmpI, tmpSpaceHeight)));
+                                tmpAreas.add((Area) tmpNode.computeIteration(new Area(tmpCellSpace, tmpPart * tmpI, tmpSpaceHeight), temp_map ));
+                                hm.put(tmpNode.getNodeName(), (double)tmpNode.get_local_map().get(tmpNode.getNodeName()));
                             }
 
                             //  tmpAreas.add((Area) tmpNode.computeIteration(new Area(tmpCellSpace, tmpPart * tmpI, (tmpPart * (tmpI + 1)))));
@@ -175,6 +212,7 @@ public class ServerController {
 
 
         for (Area area : tmpAreas) {
+            
             writeAreaToCellSpace(area);
         }
 
